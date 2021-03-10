@@ -1,15 +1,11 @@
-const forms = ()=> {
+import checkNumInputs from './checkNumInputs';
+
+const forms = (state) => {
 
     const form = document.querySelectorAll('form'),
-          inputs = document.querySelectorAll('input'),
-          phoneInputs = document.querySelectorAll('input[name="user_phone"]');
+          inputs = document.querySelectorAll('input');
 
-    phoneInputs.forEach(item => {
-        item.addEventListener('input', ()=> {
-            item.value = item.value.replace(/\D/, '');
-        });
-        
-    });
+    checkNumInputs('[data-phone]');
 
     const message = {
         loading: 'Идет загрузка.....',
@@ -18,12 +14,12 @@ const forms = ()=> {
     };
     
 
-    const postDate = async (url, date)=> {
+    const postData = async (url, data) => {
         document.querySelector('.status').textContent = message.loading;
         let res = await fetch(url, {
-            method: 'POST',
-            body: date
-        }); 
+            method: "POST",
+            body: data
+        });
 
         return await res.text();
     };
@@ -41,22 +37,27 @@ const forms = ()=> {
             let statusMessage = document.createElement('div');
             statusMessage.classList.add('status');
             item.appendChild(statusMessage);
-            const formDate = new FormData(item);
-   
-            postDate('assets/server.php', formDate)
-                    .then(res => {
-                        console.log(res);
-                        statusMessage.textContent = message.success;
-                    })
-                    .catch(()=> {
-                        statusMessage.textContent = message.failure;
-                    })
-                    .finally(()=> {
-                        clearInputs();
-                        setTimeout(()=> {
-                           statusMessage.remove();
-                        }, 5000);
-                    });
+
+            const formData = new FormData(item);
+            if (item.getAttribute('data-calc') === "end") {
+                for (let key in state) {
+                    formData.append(key, state[key]);
+                }
+            }
+            
+            
+            postData('assets/server.php', formData)
+                .then(res => {
+                    console.log(res);
+                    statusMessage.textContent = message.success;
+                })
+                .catch(() => statusMessage.textContent = message.failure)
+                .finally(() => {
+                    clearInputs();
+                    setTimeout(() => {
+                        statusMessage.remove();
+                    }, 5000);
+                });
                     
         });
                 
