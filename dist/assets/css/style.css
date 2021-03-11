@@ -1465,6 +1465,25 @@ textarea:focus {
   }
 }
 
+
+/* small devices, tablets */
+@media only screen and (max-width: 768px) {
+  .animated {
+    /*css transitions*/
+    -webkit-transition-property: none !important;
+    transition-property: none !important;
+    /*css transforms*/
+    -webkit-transform: none !important;
+    transform: none !important;
+    /*css animations*/
+    -webkit-animation: none !important;
+    animation: none !important;
+  }
+  .works img {
+    max-width: 500px;
+  }
+}
+
 @media (max-width: 530px) {
   .form {
     margin-top: 2rem;
@@ -1802,19 +1821,11 @@ textarea:focus {
   .popup_calc_profile_button {
     padding: 1rem 5rem;
   }
-}
-
-/* small devices, tablets */
-@media only screen and (max-width: 768px) {
-  .animated {
-    /*css transitions*/
-    -webkit-transition-property: none !important;
-    transition-property: none !important;
-    /*css transforms*/
-    -webkit-transform: none !important;
-    transform: none !important;
-    /*css animations*/
-    -webkit-animation: none !important;
-    animation: none !important;
+  .timer1 {
+    width: 292px;
+  }
+  .works img {
+    max-width: 300px;
   }
 }
+
